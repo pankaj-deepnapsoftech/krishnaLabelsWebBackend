@@ -1,0 +1,20 @@
+import cors from "cors";
+import { json, urlencoded } from "express";
+import cookieParser from "cookie-parser";
+// local imports
+import { config } from "./config/env.config.js";
+import MainRouter from "./routes/index.js";
+
+export const StartServer = (app) => {
+    app.use(json({limit:"10mb"}));
+    app.use(urlencoded({extended:true,limit:"10mb"}));
+    app.use(cors({
+        origin:config.CLIENT_URL,
+        credentials:true,
+        methods:["POST","GET","PUT","PATCH","OPTIONS"]
+    }));
+    app.use(cookieParser());
+
+    app.use("/api/v1",MainRouter);
+    
+}
