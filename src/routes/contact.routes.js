@@ -5,8 +5,8 @@ import { CreateLead, GetLead } from "../controllers/contact.controller.js";
 
 const router = Router();
 
-router.route("/create-lead").post(Validator(ContactValidation),CreateLead);
-router.route("/lead-get").get(GetLead);
+router.route("/create-contact").post(Validator(ContactValidation),CreateLead);
+router.route("/get-contact").get(GetLead);
 
 
 export default router;
