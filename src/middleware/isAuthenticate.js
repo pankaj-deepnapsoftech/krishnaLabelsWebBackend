@@ -1,35 +1,21 @@
-import jwt from "jsonwebtoken";
 import { UserModle } from "../models/User.model.js";
-import { AsyncHandler, ErrorHandler } from "../utils/AsyncHandler.js";
+import { AsyncHandler } from "../utils/AsyncHandler.js";
+import { VerifyToken } from "../utils/tokens.js";
 
 export const isAuthenticated = AsyncHandler(async (req, res, next) => {
-    const token = req.headers?.authorization?.split(" ")[1];
-    if (!token) {
-        throw new ErrorHandler("Authorization token not provided", 401);
+    const {tk} = req.cookies;
+    if(!tk){
+        return res.status(404).json({
+            message:"user not logedin"
+        })
     }
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (!verified) {
-        throw new ErrorHandler("Session expired, login again", 401);
-    }
-
-    const user = await UserModle.findOne({ email: verified?.email })
-
-    if (!user) {
-        throw new ErrorHandler("User doesn't exist", 400);
+    const {email} = VerifyToken(tk);
+    const user = await UserModle.findOne({email});
+    if(!user){
+        return res.status(404).json({
+            message:"user not found"
+        })
     }
 
-    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
-
-    if (
-        verified.iat < currentTimeInSeconds &&
-        verified.exp > currentTimeInSeconds
-    ) {
-        req.user = {
-            email: user.email,
-            password: user.password,
-        };
-        return next();
-    }
-    throw new ErrorHandler("Session expired, login again", 401);
+    next()
 });

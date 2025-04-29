@@ -2,7 +2,7 @@ import express from "express";
 import { StartServer } from "./server.js";
 import { DbConnection } from "./connections/db.Connection.js";
 
-const SERVER_PORT = 5000;
+const SERVER_PORT = 8089;
 
 const InitServer = () => {
     const app = express()
