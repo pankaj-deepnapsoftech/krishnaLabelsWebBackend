@@ -36,7 +36,8 @@ export const login = AsyncHandler(async (req, res) => {
     };
 
     const token = GenerateToken({ email: find.email }, '1day')
-    res.cookie("tk", token, { httpOnly: true, secure: config.NODE_ENV !== "development", sameSite: "none", maxAge: 1000 * 60 * 60 * 24 })
+    res.cookie("tk", token, { httpOnly: true, sameSite: config.NODE_ENV === "development" ? "lax" : "none",
+        secure: config.NODE_ENV !== "development", maxAge: 1000 * 60 * 60 * 24 })
     return res.status(200).json({
         message: "login successful"
     })

@@ -9,7 +9,7 @@ export const StartServer = (app) => {
     app.use(json({limit:"10mb"}));
     app.use(urlencoded({extended:true,limit:"10mb"}));
     app.use(cors({
-        origin:config.CLIENT_URL,
+        origin:config.NODE_ENV !== 'development' ? config.CLIENT_URL : config.CLIENT_URL_LOCAL,
         credentials:true,
         methods:["POST","GET","PUT","PATCH","OPTIONS"]
     }));

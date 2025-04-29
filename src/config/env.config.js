@@ -12,6 +12,7 @@ class Config {
         this.CLIENT_URL = process.env.CLIENT_URL;
         this.MONGODB_URI = process.env.MONGODB_URI;
         this.SECRET_KEY = process.env.SECRET_KEY;
+        this.CLIENT_URL_LOCAL = process.env.CLIENT_URL_LOCAL;
     }
 }
 
