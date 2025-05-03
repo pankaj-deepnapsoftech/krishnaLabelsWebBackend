@@ -30,12 +30,13 @@ export const GetProductpage = AsyncHandler(async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
     const skip = (page - 1) * limit;
+    const totalData = await productModel.countDocuments();
     const data = await productModel.find({})
         .sort({ _id: -1 })
         .skip(skip)
         .limit(limit)
         .exec();
-    return res.status(200).json({ message: "Product data found", data });
+    return res.status(200).json({ message: "Product data found", data ,totalData});
 });
 
 // update existing product API
@@ -81,13 +82,7 @@ export const DeleteProduct = AsyncHandler(async (req, res) => {
 });
 
 
-export const GetProduct = AsyncHandler(async (req,res) => {
-    const data = await productModel.find();
-    return res.status(200).json({
-        message:"data found",
-        data
-    })
-});
+
 
 
 
