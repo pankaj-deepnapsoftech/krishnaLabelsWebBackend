@@ -6,6 +6,7 @@ import { config } from "./config/env.config.js";
 import MainRouter from "./routes/index.js";
 
 export const StartServer = (app) => {
+    app.set('trust proxy', 1);
     app.use(json({limit:"10mb"}));
     app.use(urlencoded({extended:true,limit:"10mb"}));
     app.use(cors({

@@ -35,6 +35,7 @@ export const login = AsyncHandler(async (req, res) => {
         });
     };
 
+    await UserModle.findByIdAndUpdate(find._id,{ip:req.ip})
     const token = GenerateToken({ email: find.email }, '1day')
     res.cookie("tk", token, { httpOnly: true, sameSite: config.NODE_ENV === "development" ? "lax" : "none",
         secure: config.NODE_ENV !== "development", maxAge: 1000 * 60 * 60 * 24 })
