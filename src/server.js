@@ -1,5 +1,5 @@
 import cors from "cors";
-import { json, urlencoded } from "express";
+import express, { json, urlencoded } from "express";
 import cookieParser from "cookie-parser";
 // local imports
 import { config } from "./config/env.config.js";
