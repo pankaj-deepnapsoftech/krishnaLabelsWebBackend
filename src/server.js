@@ -4,6 +4,11 @@ import cookieParser from "cookie-parser";
 // local imports
 import { config } from "./config/env.config.js";
 import MainRouter from "./routes/index.js";
+import {fileURLToPath} from "url";
+import path from "path" ;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const StartServer = (app) => {
     app.set('trust proxy', 1);
@@ -15,6 +20,7 @@ export const StartServer = (app) => {
         methods:["POST","GET","PUT","PATCH","OPTIONS"]
     }));
     app.use(cookieParser());
+    app.use('/file', express.static(path.join(__dirname, '../', 'public/temp')));
 
     app.use("/api/v1",MainRouter);
     

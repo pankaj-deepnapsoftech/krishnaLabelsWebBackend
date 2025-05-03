@@ -4,6 +4,7 @@ import { AsyncHandler } from "../utils/AsyncHandler.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { config } from "../config/env.config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -12,7 +13,7 @@ const __dirname = dirname(__filename);
 export const CreateProduct = AsyncHandler(async (req,res) => {
     const data = req.body;
     const { filename } = req.file;
-    const imagepath = path.join(__dirname, './tmp/uploads/' + filename);
+    const imagepath = `${config.NODE_ENV !== "development" ? config.BACKEND_URL : config.LOCAL_BACKEND_URL}/${filename}`
     const newData = {
         ...data,
         image: imagepath
@@ -53,7 +54,7 @@ export const UpdateProduct = AsyncHandler(async (req, res) => {
     // Only update image if a file was uploaded
     if (req.file) {
         const { filename } = req.file;
-        const imagepath = path.join(__dirname, './tmp/uploads/' + filename);
+        const imagepath = `${config.NODE_ENV !== "development" ? config.BACKEND_URL : config.LOCAL_BACKEND_URL}/${filename}`
         newData.image = imagepath;
     } else {
         newData.image = find.image;
